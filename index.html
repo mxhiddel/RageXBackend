@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>RageX Monitor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            color: #eee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background: #1e1e1e;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px #00ff99;
+        }
+        #status {
+            font-size: 48px;
+            color: #00ff99;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Is RageX.exe Running?</h1>
+        <div id="status">Loading...</div>
+    </div>
+
+    <script>
+      async function updateStatus() {
+        try {
+          const res = await fetch('http://localhost:5000/');
+          const status = await res.text();
+          const el = document.getElementById('status');
+          el.textContent = status;
+          el.style.color = status.trim() === 'yes' ? '#00ff99' : '#ff4444';
+        } catch {
+          document.getElementById('status').textContent = 'Error';
+        }
+      }
+
+      updateStatus();
+      setInterval(updateStatus, 5000);
+    </script>
+</body>
+</html>
